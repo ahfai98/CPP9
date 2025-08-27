@@ -1,0 +1,44 @@
+### Basic operations ###
+3 4 +
+7 2 -
+5 6 *
+8 4 /
+
+### Combined operations ###
+2 3 + 4 *
+5 1 2 + 4 * + 3 -
+9 3 2 * +
+1 2 3 4 + + +
+
+### Division by zero ###
+5 0 /
+0 0 /
+7 0 /
+
+### Too few operands ###
+3 +
+4 *
+1 /
+
+### Too many operands left ###
+3 4
+1 2 3
+5 6 7 8
+
+### Invalid tokens ###
+3 a +
+5 b *
+x y z +
+4 $ 2 -
+
+### Single numbers ###
+9
+0
+
+### Large intermediate results ###
+9 9 9 * *
+8 7 6 * *
+9 8 * 7 * 6 *
+
+### Long valid expression ###
+1 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 +
