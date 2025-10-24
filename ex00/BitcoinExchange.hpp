@@ -12,16 +12,17 @@
 class BitcoinExchange
 {
 	public:
-		BitcoinExchange(const std::string &dbFile);
+		BitcoinExchange(const std::string &databaseFile);
 		BitcoinExchange(const BitcoinExchange &src);
 		~BitcoinExchange();
 		BitcoinExchange &operator=(const BitcoinExchange &src);
 		bool isValidDate(const std::string &date) const;
-		bool isValidValue(const std::string &value) const;
+		bool isValidValueInput(const std::string &value, float &input_value) const;
+		bool isValidValueDatabase(const std::string &value) const;
 		bool isLeapYear(int year) const;
 		bool getClosestPrice(const std::string &date, float &price) const;
-		double calculateValue(const std::string &date, float value) const;
-		void trim(std::string &str) const;
+		bool calculateValue(const std::string &date, float value, double &result) const;
+		void trim_frontback_spaces(std::string &str) const;
 
 	private:
 		std::map<std::string, float> _btcDatabase;
