@@ -1,17 +1,13 @@
 #include "RPN.hpp"
 
-RPN::RPN()
-{
-}
+RPN::RPN(){}
 
 RPN::RPN(const RPN &src)
 {
 	(void)src;
 }
 
-RPN::~RPN()
-{
-}
+RPN::~RPN(){}
 
 RPN &RPN::operator=(const RPN &src)
 {
@@ -33,16 +29,20 @@ long RPN::applyOperator(long lhs, long rhs, char op) const
 		case '*': return (lhs * rhs);
 		case '/':
 			if (rhs == 0)
-				throw std::runtime_error("Error: Division by zero");
+				throw RPNException("Error: Division by zero");
 			return (lhs / rhs);
 		default:
-			throw std::runtime_error("Error: Invalid Operator");
+			throw RPNException("Error: Invalid Operator");
 	}
 }
 
-bool RPN::isNumber(const char &token) const
+bool RPN::isNumber(const std::string &token) const
 {
-	return(std::isdigit(token));
+	if (token.empty())
+		return (false);
+	else if (token.size() == 2 && token[0] == '-')
+		return (isdigit(token[1]));
+	return(token.size() == 1 && isdigit(token[0]));
 }
 
 long RPN::calculate(const std::string &str) const
@@ -53,29 +53,29 @@ long RPN::calculate(const std::string &str) const
 
 	while (iss >> token)
 	{
-		if (token.size() != 1)
-			throw std::runtime_error("Error: Invalid Input.");
-		else
+		if (isNumber(token))
 		{
-			char c = token[0];
-			if (isNumber(c))
-				stk.push(c - '0');
-			else if (isOperator(c))
-			{
-				if (stk.size() < 2)
-					throw std::runtime_error("Error: not enough operands.");
-				long rhs = stk.top();
-				stk.pop();
-				long lhs = stk.top();
-				stk.pop();
-				long result = applyOperator(lhs, rhs, c);
-				stk.push(result);
-			}
-			else
-				throw std::runtime_error("Error: Invalid Token.");
+			char *endptr;
+			long num = strtol(token.c_str(), &endptr, 10);
+			if (*endptr != '\0')
+				throw RPNException("Error: Invalid number.");
+			stk.push(num);
 		}
+		else if (token.size() == 1 && isOperator(token[0]))
+		{
+			if (stk.size() < 2)
+				throw RPNException("Error: not enough operands.");
+			long rhs = stk.top();
+			stk.pop();
+			long lhs = stk.top();
+			stk.pop();
+			long result = applyOperator(lhs, rhs, token[0]);
+			stk.push(result);
+		}
+		else
+			throw RPNException("Error: Invalid Token.");
 	}
 	if (stk.size() != 1)
-		throw std::runtime_error("Error: Invalid Input.(More than 1 number left)");
+		throw RPNException("Error: Invalid Input.(More than 1 number left)");
 	return (stk.top());
 }
