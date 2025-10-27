@@ -3,6 +3,18 @@
 #include <cstdlib>
 #include <climits>
 #include <cerrno>
+#include <cmath>
+
+int F(int n)
+{
+	int sum = 0;
+	for (int k = 1; k <= n; ++k)
+	{
+		double value = (3.0 / 4.0) * k;
+		sum += static_cast<int>(ceil(log2(value)));
+	}
+	return sum;
+}
 
 int main(int argc, char **argv)
 {
@@ -17,14 +29,14 @@ int main(int argc, char **argv)
 	for (int i = 1; i < argc; ++i)
 	{
 		char *endptr;
-    	errno = 0;
+		errno = 0;
 		long val = std::strtol(argv[i], &endptr, 10);
 		if (*endptr != '\0')
 		{
 			std::cerr << "Error: invalid number '" << argv[i] << "'" << std::endl;
 			return (1);
 		}
-		if ((errno == ERANGE && (val == LONG_MAX || val == LONG_MIN)) || val > INT_MAX)
+		if ((errno == ERANGE && (val == LONG_MAX || val == LONG_MIN)) || val > INT_MAX || val < 0)
 		{
 			std::cerr << "Error: number out of range '" << argv[i] << "'" << std::endl;
 			return (1);
@@ -67,7 +79,7 @@ int main(int argc, char **argv)
 			  << " elements with std::deque : " << deqTime << " us" << std::endl;
 	std::cout << "Comparison count (deque): " << countDeq << std::endl;
 	bool sorted = true;
-	for (int i = 1; i < (int)numVec.size(); ++i)
+	for (size_t i = 1; i < numVec.size(); ++i)
 	{
 		if (numVec[i].value < numVec[i-1].value)
 		{
@@ -76,5 +88,6 @@ int main(int argc, char **argv)
 		}
 	}
 	std::cout << "Is Sorted? " << (sorted ? "Yes" : "No") << std::endl;
+	std::cout << "Max Comparison Count Allowed is " << F((int)numVec.size()) << std::endl;
 	return (0);
 }

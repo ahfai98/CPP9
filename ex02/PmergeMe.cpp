@@ -126,12 +126,12 @@ void fordJohnsonVector(std::vector<Item> &arr, int &comparisonCount)
 
 	for (size_t k = 0; k < order.size(); ++k)
 	{
-		int idx = order[k] - 1; //index starts from 0
-		if (idx < 0 || idx >= (int)pendChain.size())
+		size_t idx = order[k] - 1; //index starts from 0
+		if (idx < 0 || idx >= pendChain.size())
 			continue;
 		// Use bound reference from the mainChainCopy
 		const Item *boundItem = NULL;
-		if (idx < (int)mainChainCopy.size())
+		if (idx < mainChainCopy.size())
 			boundItem = &mainChainCopy[idx];
 		comparisonCount += boundedInsertVector(mainChain, pendChain[idx], boundItem);
 	}
@@ -221,12 +221,12 @@ void fordJohnsonDeque(std::deque<Item> &arr, int &comparisonCount)
 
 	for (size_t k = 0; k < order.size(); ++k)
 	{
-		int idx = order[k] - 1; //index starts from 0
-		if (idx < 0 || idx >= (int)pendChain.size())
+		size_t idx = order[k] - 1; //index starts from 0
+		if (idx < 0 || idx >= pendChain.size())
 			continue;
 		// Use bound reference from the mainChainCopy
 		const Item *boundItem = NULL;
-		if (idx < (int)mainChainCopy.size())
+		if (idx < mainChainCopy.size())
 			boundItem = &mainChainCopy[idx];
 		comparisonCount += boundedInsertDeque(mainChain, pendChain[idx], boundItem);
 	}
