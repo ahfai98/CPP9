@@ -33,6 +33,8 @@ struct ItemCompare
 
 void fordJohnsonVector(std::vector<Item> &arr, int &comparisonCount);
 int boundedInsertVector(std::vector<Item> &mainChain, const Item &pendItem, const Item *boundItem);
+void fordJohnsonDeque(std::deque<Item> &arr, int &comparisonCount);
+int boundedInsertDeque(std::deque<Item> &mainChain, const Item &pendItem, const Item *boundItem);
 void generateJacobsthalNumbers(int n, std::vector<int> &jacob);
 void generateJacobsthalOrder(int n, std::vector<int> &order);
 
